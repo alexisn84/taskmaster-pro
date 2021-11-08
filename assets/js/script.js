@@ -33,7 +33,7 @@ var loadTasks = function() {
 
   // loop over object properties
   $.each(tasks, function(list, arr) {
-    console.log(list, arr);
+    
     // then loop over sub-array
     arr.forEach(function(task) {
       createTask(task.text, task.date, list);
@@ -41,12 +41,57 @@ var loadTasks = function() {
   });
 };
 
+//save tasks
 var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+//edit saved tasks
+$(".list-group").on("click", "p", function() {
+  var text = $(this)
+    .text()
+    .trim();
+  
+  var textInput = $("<textarea>")
+  .addClass("form-control")
+  .val(text);
 
 
+  $(this).replaceWith(textInput);
+
+  textInput.trigger("focus");
+
+  console.log(text);
+});
+
+//below the delegated <p> new event listener (blur callback function)
+$(".list-group").on("blur", "textarea", function(){
+  //get the textarea's current value/text
+  var text = $(this)
+  .val()
+  .trim();
+
+  //get parent ul's id attribute
+  var status = $(this)
+  .closest(".list-group")
+  .attr("id")
+  .replace("list-", "")
+  tasks[status][index].text = text;
+  saveTasks();
+
+  //get tsk's position in the list of other lielements
+  var index = $(this)
+  .closest(".list-group-item")
+  .index();
+
+  //recreate p element
+  var taskP = $("<p>")
+  .addClass("m-1")
+  .text(text);
+
+  //replace text with p
+  $(this).replaceWith(taskP);
+});
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
@@ -90,6 +135,8 @@ $("#remove-tasks").on("click", function() {
   }
   saveTasks();
 });
+
+
 
 // load tasks for the first time
 loadTasks();
