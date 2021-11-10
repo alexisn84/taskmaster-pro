@@ -163,9 +163,11 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
+    //$(this).addClass(dropover);
     //console.log("activate", this);
   },
   deactivate: function(event) {
+    //$(this)removeClass(dropover;)
     //console.log("deactivate", this);
   },
   over: function(event) {
@@ -215,7 +217,7 @@ $("#trash").droppable({
   accept: ".card .list-group-item",
   tolerance: "touch",
   drop: function(event, ui) {
-    console.log("drop");
+    //console.log("drop");
     ui.draggable.remove();
     console.log();
   },
@@ -294,6 +296,18 @@ var auditTask = function(taskEl) {
     $(taskEl).addClass("list-group-item-warning");
   }
 };
+
+//set timer
+setInterval(function () {
+  $(".card .list-group-item").each(function(index, el) {
+    auditTask(el);
+  });
+}, 1800000);
+
+// easier way to convert time vs milliseconds
+// setInterval(function() {
+//   // code to execute
+// }, (1000 * 60) * 30);
 
 // load tasks for the first time
 loadTasks();
