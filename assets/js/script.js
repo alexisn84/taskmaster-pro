@@ -70,19 +70,21 @@ $(".list-group").on("blur", "textarea", function(){
   var text = $(this)
   .val()
   .trim();
-
+    console.log(text);
+    console.log(tasks);
   //get parent ul's id attribute
   var status = $(this)
   .closest(".list-group")
   .attr("id")
   .replace("list-", "")
-  tasks[status][index].text = text;
-  saveTasks();
 
-  //get tsk's position in the list of other lielements
+   //get tsk's position in the list of other lielements
   var index = $(this)
   .closest(".list-group-item")
   .index();
+  tasks[status][index].text = text;
+  //console.log(tasks);
+  saveTasks();
 
   //recreate p element
   var taskP = $("<p>")
@@ -114,7 +116,7 @@ $(".list-group").on("click", "span", function() {
 });
 
 //value of date changed
-$(".list-group").on("blur", "input[type='text]", function() {
+$(".list-group").on("blur", "input[type=text]", function() {
   //get current text
   var date = $(this)
     .val()
@@ -133,7 +135,7 @@ $(".list-group").on("blur", "input[type='text]", function() {
 
     //update task in array and re sae to localstorage
     tasks[status][index].date = date;
-    daveTasks();
+    saveTasks();
 
     //recreate span element with bootstrap classes
     var taskSpan = $("<span>")
@@ -177,14 +179,14 @@ $(".card .list-group").sortable({
         .find("span")
         .text()
         .trim();
-
+      console.log(text, date);
       // add task data to the temp array as an object
       tempArr.push({
         text: text,
         date: date
         });
       });
-      console.log(text, date);
+      console.log(tempArr);
   },
 });
 
