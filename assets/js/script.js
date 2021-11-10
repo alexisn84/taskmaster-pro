@@ -61,7 +61,7 @@ $(".list-group").on("click", "p", function() {
 
   textInput.trigger("focus");
 
-  console.log(text);
+  //console.log(text);
 });
 
 //below the delegated <p> new event listener (blur callback function)
@@ -70,8 +70,8 @@ $(".list-group").on("blur", "textarea", function(){
   var text = $(this)
   .val()
   .trim();
-    console.log(text);
-    console.log(tasks);
+    // console.log(text);
+    // console.log(tasks);
   //get parent ul's id attribute
   var status = $(this)
   .closest(".list-group")
@@ -153,16 +153,16 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    console.log("activate", this);
+    //console.log("activate", this);
   },
   deactivate: function(event) {
-    console.log("deactivate", this);
+    //console.log("deactivate", this);
   },
   over: function(event) {
-    console.log("over", event.target);
+    //console.log("over", event.target);
   },
   out: function(event) {
-    console.log("out", event.target);
+    //console.log("out", event.target);
   },
   update: function(event) {
     // array to store the task data in
@@ -180,14 +180,41 @@ $(".card .list-group").sortable({
         .text()
         .trim();
       console.log(text, date);
+
       // add task data to the temp array as an object
       tempArr.push({
         text: text,
         date: date
         });
       });
+
+      // trim down list's ID to match object property
+      var arrName = $(this)
+      .attr("id")
+      .replace("list-", "");
+
+      // update array on tasks object and save
+      tasks[arrName] = tempArr;
+      saveTasks();
       console.log(tempArr);
   },
+});
+
+//turn trash into droppable
+$("#trash").droppable({
+  accept: ".card .list-group-item",
+  tolerance: "touch",
+  drop: function(event, ui) {
+    console.log("drop");
+    ui.draggable.remove();
+    console.log();
+  },
+  over: function(event, ui) {
+    console.log("over");
+  },
+  out: function(event, ui) {
+    console.log("out");
+  }
 });
 
 // modal was triggered
